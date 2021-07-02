@@ -1,16 +1,21 @@
 
+var posterDisplay = document.getElementById("DisplayPoster")
 
 // //Initial set of arrays, to be added to later
 var filmArray1 = [];
 var filmArray2 = [];
 var finalResults = [];
+userResponse1 = ""
+userResponse2 = ""
 
-userResponse1 = "Peter Dinklage"
-userResponse2 = "Danny Devito"
 
 function checkFirstActor() {
+    posterDisplay.innerHTML = ""
+    filmArray1.length = 0
+    filmArray2.length = 0
+    finalResults.length = 0
 //     //user responses, set as defined strings currently but will be set to take in values based on what the user types in
-
+userResponse1 = document.querySelector('.EnterActor1').value
 
 //     //inital fetch request for the first actor, retrieves Imdb ID data to then be used 
     fetch("https://data-imdb1.p.rapidapi.com/actor/imdb_id_byName/" + userResponse1 + "/", {
@@ -72,7 +77,8 @@ function checkFirstActor() {
 }
 
 function checkSecondActor() {
-
+    finalResults.length = 0
+    userResponse2 = document.querySelector('.EnterActor2').value
 
 //     //Second series of fetch requests for the second entered actor
     fetch("https://data-imdb1.p.rapidapi.com/actor/imdb_id_byName/" + userResponse2 + "/", {
@@ -106,6 +112,7 @@ function checkSecondActor() {
                 })
 //                 //build an array from the desired data for the second actor, to be checked with the first array
                 .then(function (response) {
+                    finalResults.length = 0
 
 
                     for (var i = 0; i < response.Roles.movies.length; i++) {
@@ -149,6 +156,9 @@ function checkSecondActor() {
 
 
                                 var poster = response.Search[0].Poster
+                                var posterImg = document.createElement("img")
+                                posterImg.setAttribute("src", poster)
+                                posterDisplay.appendChild(posterImg)
                                 console.log(poster)
 
 
@@ -169,7 +179,7 @@ function checkSecondActor() {
 
 
 }
-checkFirstActor();
+
 
 // // function checkActors2() {
 // //     userResponse1 = "Tom Hanks"
@@ -233,4 +243,4 @@ checkFirstActor();
 
 // // }
 
-// //     // checkActors2();
+document.getElementById("search").addEventListener("click", checkFirstActor)
